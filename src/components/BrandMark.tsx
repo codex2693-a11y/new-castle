@@ -10,6 +10,8 @@ interface BrandMarkProps {
   platform?: RuntimePlatform;
 }
 
+const BRAND_MARK_SRC = '/brand/new-castle-mark.svg';
+
 const PLATFORM_PRESETS: Record<
   RuntimePlatform,
   {
@@ -19,31 +21,35 @@ const PLATFORM_PRESETS: Record<
     wrapperClassName: string;
     titleClassName: string;
     subtitleClassName: string;
+    imageClassName: string;
   }
 > = {
   web: {
-    markSrc: '/brand/web/carpet-land-mark.png',
+    markSrc: BRAND_MARK_SRC,
     title: appClient.companyNameAr,
     subtitle: appClient.tagline,
-    wrapperClassName: 'h-16 w-16 rounded-[1.35rem]',
+    wrapperClassName: 'h-16 w-16 rounded-[1.35rem] bg-slate-950/60',
     titleClassName: 'text-[1.35rem]',
     subtitleClassName: 'text-[11px] tracking-[0.22em]',
+    imageClassName: 'object-contain p-1.5',
   },
   desktop: {
-    markSrc: '/brand/desktop/carpet-land-mark.png',
+    markSrc: BRAND_MARK_SRC,
     title: appClient.systemName,
     subtitle: appClient.desktopSubtitle,
-    wrapperClassName: 'h-14 w-14 rounded-[1.25rem]',
+    wrapperClassName: 'h-14 w-14 rounded-[1.25rem] bg-slate-950/60',
     titleClassName: 'text-xl',
     subtitleClassName: 'text-[10px] tracking-[0.26em]',
+    imageClassName: 'object-contain p-1.5',
   },
   mobile: {
-    markSrc: '/brand/mobile/carpet-land-mark.png',
+    markSrc: BRAND_MARK_SRC,
     title: appClient.companyNameAr,
     subtitle: appClient.mobileSubtitle,
-    wrapperClassName: 'h-12 w-12 rounded-[1rem]',
+    wrapperClassName: 'h-12 w-12 rounded-[1rem] bg-slate-950/60',
     titleClassName: 'text-lg',
     subtitleClassName: 'text-[9px] tracking-[0.18em]',
+    imageClassName: 'object-contain p-1.5',
   },
 };
 
@@ -68,7 +74,7 @@ const BrandMark: React.FC<BrandMarkProps> = ({
         <img
           src={resolvedMarkSrc}
           alt={`${appClient.companyNameEn} mark`}
-          className="h-full w-full object-cover"
+          className={`h-full w-full ${preset.imageClassName}`}
           loading="eager"
         />
       </div>
