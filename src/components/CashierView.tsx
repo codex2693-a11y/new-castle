@@ -53,6 +53,7 @@ interface CashierViewProps {
   branchId?: string | null;
   branchName?: string;
   branchEnabled?: boolean;
+  showShiftManager?: boolean;
 }
 
 const moneyFormatter = new Intl.NumberFormat('ar-EG');
@@ -66,7 +67,7 @@ const formatAge = (createdAt: string) => {
   return `منذ ${days} يوم`;
 };
 
-const CashierView: React.FC<CashierViewProps> = ({ branchId, branchName, branchEnabled = false }) => {
+const CashierView: React.FC<CashierViewProps> = ({ branchId, branchName, branchEnabled = false, showShiftManager = true }) => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
@@ -721,7 +722,7 @@ const CashierView: React.FC<CashierViewProps> = ({ branchId, branchName, branchE
 
       <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
         <div className="mx-auto max-w-6xl space-y-6">
-          {sessionUser?.id && branchId && <ShiftManager userId={sessionUser.id} branchId={branchId} variant="card" />}
+          {showShiftManager && sessionUser?.id && branchId && <ShiftManager userId={sessionUser.id} branchId={branchId} variant="card" />}
 
           {selectedOrder ? (
             <>

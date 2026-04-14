@@ -42,6 +42,7 @@ interface SalespersonViewProps {
   branchId?: string | null;
   branchName?: string;
   branchEnabled?: boolean;
+  showShiftManager?: boolean;
 }
 
 const moneyFormatter = new Intl.NumberFormat('ar-EG');
@@ -51,7 +52,7 @@ const PAYMENT_METHOD_OPTIONS: Array<{ value: PaymentMethod; label: string }> = [
   { value: 'cash_and_visa', label: 'كاش + فيزا' },
 ];
 
-const SalespersonView: React.FC<SalespersonViewProps> = ({ branchId, branchName, branchEnabled = false }) => {
+const SalespersonView: React.FC<SalespersonViewProps> = ({ branchId, branchName, branchEnabled = false, showShiftManager = true }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
@@ -466,7 +467,7 @@ const SalespersonView: React.FC<SalespersonViewProps> = ({ branchId, branchName,
                 )}
               </div>
 
-              {sessionUser?.id && <ShiftManager userId={sessionUser.id} branchId={currentProfile?.branch_id || branchId || null} variant="card" />}
+              {showShiftManager && sessionUser?.id && <ShiftManager userId={sessionUser.id} branchId={currentProfile?.branch_id || branchId || null} variant="card" />}
             </div>
           </div>
         </div>
@@ -756,7 +757,7 @@ const SalespersonView: React.FC<SalespersonViewProps> = ({ branchId, branchName,
                 </button>
               </div>
 
-              {sessionUser?.id && <ShiftManager userId={sessionUser.id} branchId={currentProfile?.branch_id || branchId || null} variant="card" />}
+              {showShiftManager && sessionUser?.id && <ShiftManager userId={sessionUser.id} branchId={currentProfile?.branch_id || branchId || null} variant="card" />}
 
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">

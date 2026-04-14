@@ -53,9 +53,9 @@ const SingleTerminalView: React.FC<SingleTerminalViewProps> = ({ userId, branchI
   const renderView = () => {
     switch (activeView) {
       case 'sales':
-        return <SalespersonView branchId={branchId} branchName={branchName} branchEnabled={branchEnabled} />;
+        return <SalespersonView branchId={branchId} branchName={branchName} branchEnabled={branchEnabled} showShiftManager={false} />;
       case 'cashier':
-        return <CashierView branchId={branchId} branchName={branchName} branchEnabled={branchEnabled} />;
+        return <CashierView branchId={branchId} branchName={branchName} branchEnabled={branchEnabled} showShiftManager={false} />;
       case 'inventory':
         return <ProductManager />;
       default:
