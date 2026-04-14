@@ -672,8 +672,14 @@ const SalespersonView: React.FC<SalespersonViewProps> = ({ branchId, branchName,
                       {product.size_code && <span className="rounded-full bg-indigo-50 px-3 py-1 text-[10px] font-black text-indigo-700">{product.size_code}</span>}
                     </div>
                   )}
+                  {(product.imei || product.serial_number) && (
+                    <div className="mb-3 flex flex-wrap gap-2">
+                      {product.imei && <span className="rounded-full bg-emerald-50 px-3 py-1 text-[10px] font-black text-emerald-700">IMEI: {product.imei}</span>}
+                      {product.serial_number && <span className="rounded-full bg-amber-50 px-3 py-1 text-[10px] font-black text-amber-700">S/N: {product.serial_number}</span>}
+                    </div>
+                  )}
                   <h3 className="mb-2 line-clamp-2 text-lg font-black leading-8 text-slate-800 transition group-hover:text-blue-600">{product.name}</h3>
-                  <p className="mb-5 min-h-[2.75rem] line-clamp-2 text-xs font-bold leading-6 text-slate-400">{product.description || product.category || 'منتج جاهز للإضافة مباشرة إلى الفاتورة.'}</p>
+                  <p className="mb-5 min-h-[2.75rem] line-clamp-2 text-xs font-bold leading-6 text-slate-400">{product.description || product.category || 'جهاز أو إكسسوار جاهز للإضافة مباشرة إلى الفاتورة.'}</p>
                   <div className="mt-auto flex items-end justify-between">
                     <div>
                       {product.price_sell_after && product.price_sell_after < product.price_sell_before ? (

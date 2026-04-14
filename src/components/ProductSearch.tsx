@@ -32,7 +32,7 @@ export default function ProductSearch() {
         <div className="absolute top-0 right-0 w-2 h-full bg-blue-500"></div>
         <h2 className="text-2xl font-black text-slate-800 mb-6 flex items-center gap-3">
           <Search className="w-8 h-8 text-blue-600" />
-          البحث بكود المنتج
+          البحث بكود أو IMEI أو Serial
         </h2>
         <form onSubmit={handleSearch} className="space-y-4">
           <div className="relative">
@@ -40,7 +40,7 @@ export default function ProductSearch() {
               type="text"
               value={searchCode}
               onChange={(e) => setSearchCode(e.target.value)}
-              placeholder="أدخل كود المنتج"
+              placeholder="أدخل الكود أو IMEI أو Serial"
               className="w-full p-5 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-100 outline-none font-bold text-lg transition-all"
             />
           </div>
@@ -78,7 +78,7 @@ export default function ProductSearch() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-8 border-t border-slate-100">
                 <div className="space-y-1 rounded-2xl bg-slate-50 border border-slate-100 p-5">
                   <div className="text-[10px] text-slate-400 font-black uppercase tracking-widest">التصنيف</div>
-                  <div className="font-black text-lg text-slate-800">{product.category || 'غير مصنف'}</div>
+                  <div className="font-black text-lg text-slate-800">{product.category || 'جهاز أو إكسسوار غير مصنف'}</div>
                 </div>
                 <div className="space-y-1 rounded-2xl bg-slate-50 border border-slate-100 p-5">
                   <div className="text-[10px] text-slate-400 font-black uppercase tracking-widest">السعر قبل الخصم</div>
@@ -104,9 +104,21 @@ export default function ProductSearch() {
                 <div className="sm:col-span-2 flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
                   <Package className="w-5 h-5 text-slate-400" />
                   <p className="text-xs font-bold text-slate-500">
-                    الكمية المتاحة حاليًا هي <b className="text-slate-800">{product.stock_quantity}</b> قطعة.
+                    الكمية المتاحة حاليًا هي <b className="text-slate-800">{product.stock_quantity}</b> وحدة.
                   </p>
                 </div>
+                {(product.imei || product.serial_number) && (
+                  <div className="sm:col-span-2 grid gap-4 sm:grid-cols-2">
+                    <div className="rounded-2xl bg-slate-50 border border-slate-100 p-5">
+                      <div className="text-[10px] text-slate-400 font-black uppercase tracking-widest">IMEI</div>
+                      <div className="mt-1 font-black text-lg text-slate-800">{product.imei || '-'}</div>
+                    </div>
+                    <div className="rounded-2xl bg-slate-50 border border-slate-100 p-5">
+                      <div className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Serial Number</div>
+                      <div className="mt-1 font-black text-lg text-slate-800">{product.serial_number || '-'}</div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

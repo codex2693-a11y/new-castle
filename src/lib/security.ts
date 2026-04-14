@@ -28,6 +28,8 @@ export const validateProductPayload = (payload: {
   name: string;
   size_label?: string;
   size_code?: string;
+  imei?: string;
+  serial_number?: string;
   price_buy: number;
   price_sell_before: number;
   price_sell_after: number;
@@ -44,6 +46,14 @@ export const validateProductPayload = (payload: {
 
   if (payload.size_code && normalizeText(payload.size_code).length > 40) {
     return 'كود المقاس طويل أكثر من اللازم.';
+  }
+
+  if (payload.imei && normalizeText(payload.imei).length > 30) {
+    return 'رقم IMEI طويل أكثر من اللازم.';
+  }
+
+  if (payload.serial_number && normalizeText(payload.serial_number).length > 60) {
+    return 'الرقم التسلسلي طويل أكثر من اللازم.';
   }
 
   if (payload.price_buy < 0 || payload.price_sell_before <= 0 || payload.price_sell_after < 0) {

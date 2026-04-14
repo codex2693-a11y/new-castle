@@ -14,7 +14,7 @@ interface ProductQueryOptions {
 }
 
 const PRODUCT_COLUMNS =
-  'id,code,name,size_label,size_code,description,price_buy,price_sell_before,price_sell_after,stock_quantity,min_stock_level,category,is_active,is_deleted,updated_at,created_at';
+  'id,code,name,size_label,size_code,imei,serial_number,description,price_buy,price_sell_before,price_sell_after,stock_quantity,min_stock_level,category,is_active,is_deleted,updated_at,created_at';
 
 const normalizeProductSearch = (value: string) => value.trim();
 
@@ -23,7 +23,7 @@ const applyProductSearch = (query: any, searchTerm?: string) => {
   if (!normalizedSearch) return query;
 
   const escaped = normalizedSearch.replace(/[%_,]/g, (match) => `\\${match}`);
-  return query.or(`code.ilike.%${escaped}%,name.ilike.%${escaped}%`);
+  return query.or(`code.ilike.%${escaped}%,name.ilike.%${escaped}%,imei.ilike.%${escaped}%,serial_number.ilike.%${escaped}%`);
 };
 
 export const fetchProductList = async ({
@@ -109,7 +109,7 @@ export const findProductByCode = async (code: string): Promise<Product | null> =
   const { data, error } = await supabase
     .from('products')
     .select(PRODUCT_COLUMNS)
-    .eq('code', normalizedCode)
+    .or(`code.eq.${normalizedCode},imei.eq.${normalizedCode},serial_number.eq.${normalizedCode}`)
     .maybeSingle();
 
   if (error) throw error;

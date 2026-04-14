@@ -26,6 +26,8 @@ export default function ProductManager() {
     name: '',
     size_label: '',
     size_code: '',
+    imei: '',
+    serial_number: '',
     description: '',
     category: '',
     price_buy: 0,
@@ -75,6 +77,8 @@ export default function ProductManager() {
       name: normalizeText(form.name),
       size_label: normalizeText(form.size_label),
       size_code: normalizeText(form.size_code),
+      imei: normalizeText(form.imei),
+      serial_number: normalizeText(form.serial_number),
       description: normalizeText(form.description),
       category: normalizeText(form.category),
     };
@@ -140,6 +144,8 @@ export default function ProductManager() {
         name: product.name,
         size_label: product.size_label || '',
         size_code: product.size_code || '',
+        imei: product.imei || '',
+        serial_number: product.serial_number || '',
         price_sell_before: product.price_before || 0,
         price_sell_after: product.price_after || 0,
         stock_quantity: 10,
@@ -172,6 +178,8 @@ export default function ProductManager() {
       name: '',
       size_label: '',
       size_code: '',
+      imei: '',
+      serial_number: '',
       description: '',
       category: '',
       price_buy: 0,
@@ -190,6 +198,8 @@ export default function ProductManager() {
       name: product.name,
       size_label: product.size_label || '',
       size_code: product.size_code || '',
+      imei: product.imei || '',
+      serial_number: product.serial_number || '',
       description: product.description || '',
       category: product.category || '',
       price_buy: product.price_buy || 0,
@@ -207,7 +217,7 @@ export default function ProductManager() {
       <header className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-black text-slate-800 flex items-center gap-3">
-            <Package className="w-8 h-8 text-purple-600" /> إدارة المنتجات وتعديل الأسعار
+            <Package className="w-8 h-8 text-purple-600" /> إدارة الأجهزة والإكسسوارات وتعديل الأسعار
           </h1>
           <p className="text-slate-500 font-medium mt-1">{totalCount.toLocaleString('ar-EG')} منتج مسجل</p>
         </div>
@@ -249,7 +259,7 @@ export default function ProductManager() {
                 </div>
                 <div>
                   <label className="text-xs font-bold text-slate-400 block mb-1">التصنيف</label>
-                  <input type="text" value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-slate-50 border font-bold outline-none" placeholder="مثال: مفروشات" />
+                  <input type="text" value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-slate-50 border font-bold outline-none" placeholder="مثال: موبايل أو سماعة أو شاحن" />
                 </div>
               </div>
 
@@ -260,12 +270,23 @@ export default function ProductManager() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="text-xs font-bold text-slate-400 block mb-1">المقاس</label>
-                  <input type="text" value={form.size_label} onChange={(e) => setForm({ ...form, size_label: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-slate-50 border font-bold outline-none" placeholder="مثال: 160×90" />
+                  <label className="text-xs font-bold text-slate-400 block mb-1">الموديل أو السعة</label>
+                  <input type="text" value={form.size_label} onChange={(e) => setForm({ ...form, size_label: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-slate-50 border font-bold outline-none" placeholder="مثال: iPhone 13 128GB" />
                 </div>
                 <div>
-                  <label className="text-xs font-bold text-slate-400 block mb-1">كود المقاس</label>
-                  <input type="text" value={form.size_code} onChange={(e) => setForm({ ...form, size_code: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-slate-50 border font-bold outline-none" placeholder="مثال: XL أو 160x90" />
+                  <label className="text-xs font-bold text-slate-400 block mb-1">اللون أو كود الموديل</label>
+                  <input type="text" value={form.size_code} onChange={(e) => setForm({ ...form, size_code: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-slate-50 border font-bold outline-none" placeholder="مثال: Black أو A2633" />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-xs font-bold text-slate-400 block mb-1">IMEI</label>
+                  <input type="text" value={form.imei} onChange={(e) => setForm({ ...form, imei: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-slate-50 border font-bold outline-none" placeholder="مثال: 356789123456789" />
+                </div>
+                <div>
+                  <label className="text-xs font-bold text-slate-400 block mb-1">Serial Number</label>
+                  <input type="text" value={form.serial_number} onChange={(e) => setForm({ ...form, serial_number: e.target.value })} className="w-full px-4 py-3 rounded-xl bg-slate-50 border font-bold outline-none" placeholder="مثال: SN-A1B2C3D4" />
                 </div>
               </div>
 
@@ -347,7 +368,7 @@ export default function ProductManager() {
                         : 'bg-red-50 text-red-600'
                   }`}
                 >
-                  {product.stock_quantity} قطعة
+                  {product.stock_quantity} وحدة
                 </span>
               </div>
 
@@ -355,8 +376,14 @@ export default function ProductManager() {
               <p className="text-xs text-slate-400 mb-4">{product.category || 'بدون تصنيف'}</p>
               {(product.size_label || product.size_code) && (
                 <div className="mb-4 flex flex-wrap gap-2">
-                  {product.size_label && <span className="rounded-full bg-blue-50 px-3 py-1 text-[10px] font-black text-blue-700">المقاس: {product.size_label}</span>}
-                  {product.size_code && <span className="rounded-full bg-indigo-50 px-3 py-1 text-[10px] font-black text-indigo-700">كود المقاس: {product.size_code}</span>}
+                  {product.size_label && <span className="rounded-full bg-blue-50 px-3 py-1 text-[10px] font-black text-blue-700">الموديل: {product.size_label}</span>}
+                  {product.size_code && <span className="rounded-full bg-indigo-50 px-3 py-1 text-[10px] font-black text-indigo-700">الكود/اللون: {product.size_code}</span>}
+                </div>
+              )}
+              {(product.imei || product.serial_number) && (
+                <div className="mb-4 flex flex-wrap gap-2">
+                  {product.imei && <span className="rounded-full bg-emerald-50 px-3 py-1 text-[10px] font-black text-emerald-700">IMEI: {product.imei}</span>}
+                  {product.serial_number && <span className="rounded-full bg-amber-50 px-3 py-1 text-[10px] font-black text-amber-700">S/N: {product.serial_number}</span>}
                 </div>
               )}
 

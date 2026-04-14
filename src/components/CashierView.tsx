@@ -921,6 +921,20 @@ const CashierView: React.FC<CashierViewProps> = ({ branchId, branchName, branchE
                                 )}
                               </div>
                             )}
+                            {(productLookup[item.product_id]?.imei || productLookup[item.product_id]?.serial_number) && (
+                              <div className="mt-2 flex flex-wrap gap-2">
+                                {productLookup[item.product_id]?.imei && (
+                                  <span className="rounded-full bg-emerald-50 px-2 py-1 text-[10px] font-black text-emerald-700">
+                                    IMEI: {productLookup[item.product_id]?.imei}
+                                  </span>
+                                )}
+                                {productLookup[item.product_id]?.serial_number && (
+                                  <span className="rounded-full bg-amber-50 px-2 py-1 text-[10px] font-black text-amber-700">
+                                    S/N: {productLookup[item.product_id]?.serial_number}
+                                  </span>
+                                )}
+                              </div>
+                            )}
                           </td>
                           <td className="px-6 py-4 font-bold text-slate-500">
                             {moneyFormatter.format(item.quantity > 0 ? item.unit_price + (item.discount_amount || 0) / item.quantity : item.unit_price)} ج.م
