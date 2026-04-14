@@ -20,3 +20,4 @@ android/captures/
 desktop-release/
 release/
 *.tsbuildinfo
+.github/workflows/ci.yml
