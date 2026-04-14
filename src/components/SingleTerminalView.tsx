@@ -2,12 +2,14 @@ import React, { Suspense, lazy, useMemo, useState } from 'react';
 import { ArrowLeftRight, Package, ShoppingCart, Store } from 'lucide-react';
 
 import { LoadingState } from './ui/LoadingState';
+import ShiftManager from './ShiftManager';
 
 const SalespersonView = lazy(() => import('./SalespersonView'));
 const CashierView = lazy(() => import('./CashierView'));
 const ProductManager = lazy(() => import('./ProductManager'));
 
 interface SingleTerminalViewProps {
+  userId: string;
   branchId?: string | null;
   branchName?: string;
   branchEnabled?: boolean;
@@ -44,7 +46,7 @@ const VIEW_META: Record<
   },
 };
 
-const SingleTerminalView: React.FC<SingleTerminalViewProps> = ({ branchId, branchName, branchEnabled = false }) => {
+const SingleTerminalView: React.FC<SingleTerminalViewProps> = ({ userId, branchId, branchName, branchEnabled = false }) => {
   const [activeView, setActiveView] = useState<TerminalTab>('sales');
   const currentMeta = useMemo(() => VIEW_META[activeView], [activeView]);
 
@@ -111,6 +113,10 @@ const SingleTerminalView: React.FC<SingleTerminalViewProps> = ({ branchId, branc
               })}
             </div>
           </div>
+        </div>
+
+        <div className="mb-6">
+          <ShiftManager userId={userId} branchId={branchId} variant="card" className="shadow-[0_22px_55px_-40px_rgba(15,23,42,0.3)]" />
         </div>
 
         <Suspense fallback={<LoadingState title={currentMeta.title} subtitle={currentMeta.subtitle} className="w-full" />}>

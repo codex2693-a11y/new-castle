@@ -365,7 +365,7 @@ const App: React.FC = () => {
   const renderContent = () => {
     switch (activeTab) {
       case 'single-terminal':
-        return <SingleTerminalView branchId={profile.branch_id} branchName={currentBranch?.name} branchEnabled={branchFeatureEnabled} />;
+        return <SingleTerminalView userId={profile.id} branchId={profile.branch_id} branchName={currentBranch?.name} branchEnabled={branchFeatureEnabled} />;
       case 'dashboard':
         return <DashboardView />;
       case 'pos':
