@@ -2,7 +2,7 @@ import React, { Suspense, lazy, startTransition, useEffect, useMemo, useRef, use
 import type { Session, User } from '@supabase/supabase-js';
 import { supabase, supabaseConfigError } from './supabase';
 import { Branch, Profile, UserRole } from './types';
-import { Users, Store, BarChart3, Package, ShoppingCart, History, ShieldAlert, LogOut, Menu, X, Building2, WifiOff, FileText } from 'lucide-react';
+import { Users, Store, BarChart3, Package, ShoppingCart, History, ShieldAlert, LogOut, Menu, X, Building2, WifiOff, FileText, MonitorSmartphone } from 'lucide-react';
 import { Toaster, toast } from 'sonner';
 
 import Login from './components/Login';
@@ -14,6 +14,7 @@ import { clearCachedProfile, readCachedProfile, writeCachedProfile } from './lib
 import { appClient } from './config/appClient';
 
 const TABS = [
+  { id: 'single-terminal', label: 'تشغيل المحل', icon: MonitorSmartphone, roles: ['admin'] as UserRole[] },
   { id: 'dashboard', label: 'لوحة التحكم', icon: BarChart3, roles: ['admin'] as UserRole[] },
   { id: 'pos', label: 'نظام البيع', icon: ShoppingCart, roles: ['admin', 'seller'] as UserRole[] },
   { id: 'cashier', label: 'نظام التحصيل', icon: Store, roles: ['admin', 'cashier'] as UserRole[] },
@@ -38,6 +39,7 @@ const ReportsView = lazy(() => import('./components/ReportsView'));
 const UserManager = lazy(() => import('./components/UserManager'));
 const AuditLogsView = lazy(() => import('./components/AuditLogsView'));
 const ShortagesView = lazy(() => import('./components/ShortagesView'));
+const SingleTerminalView = lazy(() => import('./components/SingleTerminalView'));
 
 const withTimeout = async <T,>(promise: Promise<T>, timeoutMs: number, message: string): Promise<T> => {
   let timeoutId: ReturnType<typeof setTimeout> | undefined;
@@ -98,7 +100,7 @@ const App: React.FC = () => {
   const [branches, setBranches] = useState<Branch[]>([]);
   const [branchFeatureEnabled, setBranchFeatureEnabled] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTab] = useState('single-terminal');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isOnline, setIsOnline] = useState(() => (typeof navigator === 'undefined' ? true : navigator.onLine));
   const [publicPath, setPublicPath] = useState(() => (typeof window === 'undefined' ? '/' : window.location.pathname || '/'));
@@ -362,6 +364,8 @@ const App: React.FC = () => {
 
   const renderContent = () => {
     switch (activeTab) {
+      case 'single-terminal':
+        return <SingleTerminalView branchId={profile.branch_id} branchName={currentBranch?.name} branchEnabled={branchFeatureEnabled} />;
       case 'dashboard':
         return <DashboardView />;
       case 'pos':
